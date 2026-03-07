@@ -3,19 +3,14 @@
 	@class GameConfig
 	Shared baseline configuration for runtime-tunable values.
 	LiveConfigService reads this as the baseline. Use Cmdr to override at runtime.
-
-	Organize values in nested tables by domain. Access via dot-path:
-	  LiveConfigService:GetValue("Player.MaxHP") --> 100
-
-	Add your game's tunable constants here.
 ]=]
 
 local GameConfig = {
 	Player = {
-		MaxHP = 100,
+		MaxHP = 150,
 		WalkSpeed = 16,
 		JumpPower = 50,
-		RespawnTime = 5,
+		RespawnTime = 3,
 	},
 	Economy = {
 		StartingCoins = 0,
@@ -24,9 +19,9 @@ local GameConfig = {
 		MaxGems = 99999,
 	},
 	Gameplay = {
-		MaxPlayersPerTeam = 4,
-		RoundDuration = 120,
-		IntermissionDuration = 15,
+		MaxPlayersPerTeam = 5,
+		RoundDuration = 300,
+		IntermissionDuration = 10,
 	},
 }
 
