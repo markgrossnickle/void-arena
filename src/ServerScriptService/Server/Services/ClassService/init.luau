@@ -269,7 +269,11 @@ function ClassService:_placeVoidTrap(player: Player, rootPart: BasePart, ability
 					local explosion = Instance.new("Part")
 					explosion.Name = "TrapExplosion"
 					explosion.Shape = Enum.PartType.Ball
-					explosion.Size = Vector3.new(ability.ExplosionRadius * 2, ability.ExplosionRadius * 2, ability.ExplosionRadius * 2)
+					explosion.Size = Vector3.new(
+						ability.ExplosionRadius * 2,
+						ability.ExplosionRadius * 2,
+						ability.ExplosionRadius * 2
+					)
 					explosion.Position = trap.Position
 					explosion.Anchored = true
 					explosion.Material = Enum.Material.Neon

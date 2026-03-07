@@ -196,7 +196,8 @@ function ClassController:_createClassCard(parent: Frame, className: string, conf
 	weapons.Parent = card
 
 	-- Ability
-	local abilityText = string.format("[%s] %s (CD: %ds)", config.Ability.Name, config.Ability.Description, config.Ability.Cooldown)
+	local abilityText =
+		string.format("[%s] %s (CD: %ds)", config.Ability.Name, config.Ability.Description, config.Ability.Cooldown)
 	local ability = Instance.new("TextLabel")
 	ability.Name = "Ability"
 	ability.Size = UDim2.fromScale(0.9, 0.15)

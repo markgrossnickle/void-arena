@@ -308,7 +308,11 @@ function WeaponService:_processGrenade(player: Player, weaponConfig: any, origin
 		-- Explosion visual
 		local explosion = Instance.new("Part")
 		explosion.Shape = Enum.PartType.Ball
-		explosion.Size = Vector3.new(weaponConfig.ExplosionRadius * 2, weaponConfig.ExplosionRadius * 2, weaponConfig.ExplosionRadius * 2)
+		explosion.Size = Vector3.new(
+			weaponConfig.ExplosionRadius * 2,
+			weaponConfig.ExplosionRadius * 2,
+			weaponConfig.ExplosionRadius * 2
+		)
 		explosion.Position = pos
 		explosion.Anchored = true
 		explosion.Material = Enum.Material.Neon

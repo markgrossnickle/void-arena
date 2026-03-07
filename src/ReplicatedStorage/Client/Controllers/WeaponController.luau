@@ -189,10 +189,34 @@ function WeaponController:_createCrosshair()
 
 	-- Crosshair lines (4 directions)
 	local directions = {
-		{ name = "Top", pos = UDim2.fromScale(0.5, 0.5), anchor = Vector2.new(0.5, 1), size = UDim2.fromOffset(2, 8), offsetY = -6 },
-		{ name = "Bottom", pos = UDim2.fromScale(0.5, 0.5), anchor = Vector2.new(0.5, 0), size = UDim2.fromOffset(2, 8), offsetY = 6 },
-		{ name = "Left", pos = UDim2.fromScale(0.5, 0.5), anchor = Vector2.new(1, 0.5), size = UDim2.fromOffset(8, 2), offsetX = -6 },
-		{ name = "Right", pos = UDim2.fromScale(0.5, 0.5), anchor = Vector2.new(0, 0.5), size = UDim2.fromOffset(8, 2), offsetX = 6 },
+		{
+			name = "Top",
+			pos = UDim2.fromScale(0.5, 0.5),
+			anchor = Vector2.new(0.5, 1),
+			size = UDim2.fromOffset(2, 8),
+			offsetY = -6,
+		},
+		{
+			name = "Bottom",
+			pos = UDim2.fromScale(0.5, 0.5),
+			anchor = Vector2.new(0.5, 0),
+			size = UDim2.fromOffset(2, 8),
+			offsetY = 6,
+		},
+		{
+			name = "Left",
+			pos = UDim2.fromScale(0.5, 0.5),
+			anchor = Vector2.new(1, 0.5),
+			size = UDim2.fromOffset(8, 2),
+			offsetX = -6,
+		},
+		{
+			name = "Right",
+			pos = UDim2.fromScale(0.5, 0.5),
+			anchor = Vector2.new(0, 0.5),
+			size = UDim2.fromOffset(8, 2),
+			offsetX = 6,
+		},
 	}
 
 	for _, dir in directions do
@@ -345,13 +369,19 @@ function WeaponController:KnitStart()
 		if processed then
 			return
 		end
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		if
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+		then
 			self._firing = true
 		end
 	end)
 
 	UserInputService.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		if
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+		then
 			self._firing = false
 		end
 	end)
@@ -481,7 +511,10 @@ function WeaponController:KnitStart()
 		if processed then
 			return
 		end
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		if
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+		then
 			self:Fire()
 		end
 	end)

@@ -210,7 +210,8 @@ function GameModeService:_tickDomination()
 	-- Award points for owned capture points
 	for _, pointData in self._capturePoints do
 		if pointData.Owner then
-			self._scores[pointData.Owner] = (self._scores[pointData.Owner] or 0) + VoidArenaConfig.GameModes.Domination.PointsPerSecond
+			self._scores[pointData.Owner] = (self._scores[pointData.Owner] or 0)
+				+ VoidArenaConfig.GameModes.Domination.PointsPerSecond
 		end
 	end
 

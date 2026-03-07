@@ -196,7 +196,12 @@ function ProgressionService.Client:GetPlayerStats(player: Player)
 	return self.Server:GetPlayerStats(player)
 end
 
-function ProgressionService.Client:PurchaseCosmetic(player: Player, itemId: string, cost: number, category: string): boolean
+function ProgressionService.Client:PurchaseCosmetic(
+	player: Player,
+	itemId: string,
+	cost: number,
+	category: string
+): boolean
 	return self.Server:PurchaseCosmetic(player, itemId, cost, category)
 end
 

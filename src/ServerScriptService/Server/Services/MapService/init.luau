@@ -199,12 +199,14 @@ function MapService:_buildVoidPlatform()
 	})
 
 	-- Neon border
-	for _, offset in {
-		{ Vector3.new(30, 1.5, 0), Vector3.new(0.5, 3, 60) },
-		{ Vector3.new(-30, 1.5, 0), Vector3.new(0.5, 3, 60) },
-		{ Vector3.new(0, 1.5, 30), Vector3.new(60, 3, 0.5) },
-		{ Vector3.new(0, 1.5, -30), Vector3.new(60, 3, 0.5) },
-	} do
+	for _, offset in
+		{
+			{ Vector3.new(30, 1.5, 0), Vector3.new(0.5, 3, 60) },
+			{ Vector3.new(-30, 1.5, 0), Vector3.new(0.5, 3, 60) },
+			{ Vector3.new(0, 1.5, 30), Vector3.new(60, 3, 0.5) },
+			{ Vector3.new(0, 1.5, -30), Vector3.new(60, 3, 0.5) },
+		}
+	do
 		self:_createPart({
 			Name = "Border",
 			Size = offset[2],
@@ -229,7 +231,10 @@ function MapService:_buildVoidPlatform()
 		local ramp = self:_createPart({
 			Name = "Ramp",
 			Size = Vector3.new(6, 1, 10),
-			CFrame = CFrame.new(0, 2, 0) * CFrame.Angles(0, math.rad(angle), 0) * CFrame.new(0, -1, -12) * CFrame.Angles(math.rad(-20), 0, 0),
+			CFrame = CFrame.new(0, 2, 0)
+				* CFrame.Angles(0, math.rad(angle), 0)
+				* CFrame.new(0, -1, -12)
+				* CFrame.Angles(math.rad(-20), 0, 0),
 			Color = Color3.fromRGB(30, 20, 45),
 			Material = Enum.Material.SmoothPlastic,
 		})
@@ -237,12 +242,14 @@ function MapService:_buildVoidPlatform()
 	end
 
 	-- 4 corner pillars
-	for _, pos in {
-		Vector3.new(22, 6, 22),
-		Vector3.new(-22, 6, 22),
-		Vector3.new(22, 6, -22),
-		Vector3.new(-22, 6, -22),
-	} do
+	for _, pos in
+		{
+			Vector3.new(22, 6, 22),
+			Vector3.new(-22, 6, 22),
+			Vector3.new(22, 6, -22),
+			Vector3.new(-22, 6, -22),
+		}
+	do
 		self:_createPart({
 			Name = "Pillar",
 			Size = Vector3.new(4, 12, 4),
@@ -254,12 +261,14 @@ function MapService:_buildVoidPlatform()
 	end
 
 	-- Cover walls on center platform
-	for _, offset in {
-		Vector3.new(5, 5.5, 0),
-		Vector3.new(-5, 5.5, 0),
-		Vector3.new(0, 5.5, 5),
-		Vector3.new(0, 5.5, -5),
-	} do
+	for _, offset in
+		{
+			Vector3.new(5, 5.5, 0),
+			Vector3.new(-5, 5.5, 0),
+			Vector3.new(0, 5.5, 5),
+			Vector3.new(0, 5.5, -5),
+		}
+	do
 		local wall = self:_createPart({
 			Name = "CoverWall",
 			Size = Vector3.new(6, 5, 1.5),
@@ -354,10 +363,14 @@ function MapService:_buildCrystalRuins()
 
 	-- Crystal pillars (cover)
 	local crystalPositions = {
-		Vector3.new(-15, 6, 15), Vector3.new(-15, 6, -15),
-		Vector3.new(15, 6, 15), Vector3.new(15, 6, -15),
-		Vector3.new(0, 8, 20), Vector3.new(0, 8, -20),
-		Vector3.new(-25, 6, 0), Vector3.new(25, 6, 0),
+		Vector3.new(-15, 6, 15),
+		Vector3.new(-15, 6, -15),
+		Vector3.new(15, 6, 15),
+		Vector3.new(15, 6, -15),
+		Vector3.new(0, 8, 20),
+		Vector3.new(0, 8, -20),
+		Vector3.new(-25, 6, 0),
+		Vector3.new(25, 6, 0),
 	}
 
 	for _, pos in crystalPositions do
@@ -520,12 +533,14 @@ function MapService:_buildFungalCavern()
 	end
 
 	-- Corridor walls
-	for _, corridor in {
-		{ from = -17, to = -13, z = 6 },
-		{ from = -17, to = -13, z = -6 },
-		{ from = 13, to = 17, z = 6 },
-		{ from = 13, to = 17, z = -6 },
-	} do
+	for _, corridor in
+		{
+			{ from = -17, to = -13, z = 6 },
+			{ from = -17, to = -13, z = -6 },
+			{ from = 13, to = 17, z = 6 },
+			{ from = 13, to = 17, z = -6 },
+		}
+	do
 		self:_createPart({
 			Name = "CorridorWall",
 			Size = Vector3.new(corridor.to - corridor.from, 12, 1.5),
@@ -537,9 +552,12 @@ function MapService:_buildFungalCavern()
 
 	-- Mushroom cover objects (destructible)
 	local mushroomPositions = {
-		Vector3.new(-25, 5, 8), Vector3.new(-25, 5, -8),
-		Vector3.new(-5, 5, 10), Vector3.new(5, 5, -10),
-		Vector3.new(25, 5, 8), Vector3.new(25, 5, -8),
+		Vector3.new(-25, 5, 8),
+		Vector3.new(-25, 5, -8),
+		Vector3.new(-5, 5, 10),
+		Vector3.new(5, 5, -10),
+		Vector3.new(25, 5, 8),
+		Vector3.new(25, 5, -8),
 	}
 
 	for _, pos in mushroomPositions do
@@ -601,10 +619,12 @@ function MapService:_buildFungalCavern()
 	end
 
 	-- Spawn points
-	for _, teamConfig in {
-		{ name = VoidArenaConfig.Teams.Team1.Name, x = -40, rot = 0 },
-		{ name = VoidArenaConfig.Teams.Team2.Name, x = 40, rot = 180 },
-	} do
+	for _, teamConfig in
+		{
+			{ name = VoidArenaConfig.Teams.Team1.Name, x = -40, rot = 0 },
+			{ name = VoidArenaConfig.Teams.Team2.Name, x = 40, rot = 180 },
+		}
+	do
 		for i = 1, 5 do
 			self:_addSpawnPoint(teamConfig.name, Vector3.new(teamConfig.x, 4, -10 + (i - 1) * 5), teamConfig.rot)
 		end
@@ -689,7 +709,10 @@ function MapService:_buildAbyssalFortress()
 		self:_createPart({
 			Name = "TowerRamp",
 			Size = Vector3.new(4, 1, 12),
-			CFrame = CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(angle), 0) * CFrame.new(0, 0, -12) * CFrame.Angles(math.rad(-25), 0, 0),
+			CFrame = CFrame.new(0, 5, 0)
+				* CFrame.Angles(0, math.rad(angle), 0)
+				* CFrame.new(0, 0, -12)
+				* CFrame.Angles(math.rad(-25), 0, 0),
 			Color = Color3.fromRGB(30, 18, 42),
 			Material = Enum.Material.SmoothPlastic,
 		})
@@ -804,10 +827,12 @@ function MapService:_buildAbyssalFortress()
 	end)
 
 	-- Spawn points
-	for _, teamConfig in {
-		{ name = VoidArenaConfig.Teams.Team1.Name, x = -30, rot = 0 },
-		{ name = VoidArenaConfig.Teams.Team2.Name, x = 30, rot = 180 },
-	} do
+	for _, teamConfig in
+		{
+			{ name = VoidArenaConfig.Teams.Team1.Name, x = -30, rot = 0 },
+			{ name = VoidArenaConfig.Teams.Team2.Name, x = 30, rot = 180 },
+		}
+	do
 		for i = 1, 5 do
 			self:_addSpawnPoint(teamConfig.name, Vector3.new(teamConfig.x, 4, -10 + (i - 1) * 5), teamConfig.rot)
 		end
