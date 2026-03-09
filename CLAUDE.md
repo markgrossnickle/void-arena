@@ -168,31 +168,54 @@ Inside a `Client` method, `self.Server` refers back to the root service table �
 
 ## Promise Handling (IMPORTANT)
 
-Knit service methods called from the client return **Promises**, not direct values. You MUST handle them.
+Knit service methods called from the **client** return **Promises**, not direct values. You MUST handle them.
+
+### Server-Side vs Client-Side Read Calls (CRITICAL)
+
+`PlayerDataService:Read()` behaves **differently** depending on which side you call it from:
+
+**Server-side (inside services):** Returns the value **directly** — NOT a Promise. Do NOT call `:await()`.
+```lua
+-- CORRECT (server)
+local coins = PlayerDataService:Read(player, { "Coins" }) or 0
+
+-- WRONG (server) — Read() is not a Promise, :await() will error
+local ok, coins = PlayerDataService:Read(player, { "Coins" }):await()
+```
+
+**Client-side (inside controllers):** Goes through Knit's client proxy, which wraps it in a Promise. Use `:await()`.
+```lua
+-- CORRECT (client)
+local ok, data = PlayerDataService:Read():await()
+```
 
 ### Rules
-- **Always await or chain** service method return values: use `:andThen()`, `:await()`, or `:expect()`
-- **Never assign a Promise to a variable** expecting a plain value (e.g., `local data = Service:GetData()` is WRONG — use `local ok, data = Service:GetData():await()`)
+- **Client-side only**: Always await or chain service method return values: use `:andThen()`, `:await()`, or `:expect()`
+- **Server-side**: Service-to-service calls (e.g., `PlayerDataService:Read()`) return values directly — do NOT use `:await()`
 - **Fire-and-forget** is acceptable ONLY for void methods (signals, events). If the method returns data or can fail, handle the promise
 - **Chain `:catch()`** with `:andThen()` to handle errors — never silently drop promise rejections
 - **Wrap in `task.spawn()`** when calling promise-returning methods inside event connections where you don't want to block
 
 ### Correct Patterns
 ```lua
--- Blocking await (returns success, value)
+-- SERVER: Direct value return (no Promise)
+local coins = PlayerDataService:Read(player, { "Coins" }) or 0
+local inventory = PlayerDataService:Read(player, { "Inventory" }) or {}
+
+-- SERVER: WaitForProfile returns a Promise (this is an exception)
+local profile = PlayerDataService:WaitForProfile(player):expect()
+
+-- CLIENT: Blocking await (returns success, value)
 local ok, data = MyService:GetData():await()
 
--- Promise chaining
+-- CLIENT: Promise chaining
 MyService:DoThing():andThen(function(result)
     -- handle result
 end):catch(function(err)
     warn("Failed:", err)
 end)
 
--- Synchronous extraction (throws on failure)
-local profile = PlayerDataService:WaitForProfile(player):expect()
-
--- Fire-and-forget in event connection (wrap in task.spawn)
+-- SERVER/CLIENT: Fire-and-forget in event connection (wrap in task.spawn)
 Players.PlayerAdded:Connect(function(player)
     task.spawn(function()
         PlayerDataService:WaitForProfile(player)
@@ -204,7 +227,10 @@ end)
 
 ### Anti-Patterns (DO NOT DO)
 ```lua
--- BAD: Assigns Promise object to variable instead of awaited value
+-- BAD (server): Calling :await() on a direct return value
+local ok, coins = PlayerDataService:Read(player, { "Coins" }):await()
+
+-- BAD (client): Assigns Promise object to variable instead of awaited value
 local modes = TeamService:GetGameModes()
 
 -- BAD: Ignores returned Promise from method that can fail
