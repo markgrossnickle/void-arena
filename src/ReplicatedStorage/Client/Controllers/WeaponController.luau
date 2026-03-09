@@ -87,6 +87,7 @@ function WeaponController:Fire()
 
 	-- Client-side effects
 	self:_muzzleFlash(origin + direction * 2)
+	self:_createLocalTracer(origin, direction, config)
 	self:_applyRecoil(config)
 	self:_addBloom(2)
 
@@ -139,6 +140,65 @@ function WeaponController:_muzzleFlash(position: Vector3)
 			flash:Destroy()
 		end
 	end)
+end
+
+function WeaponController:_createLocalTracer(origin: Vector3, direction: Vector3, config: any)
+	local range = config.Range or 120
+	local character = Player.Character
+
+	-- Skip tracer for melee weapons
+	if config.IsMelee then
+		return
+	end
+
+	-- Client-side raycast to find hit distance
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	if character then
+		params.FilterDescendantsInstances = { character }
+	end
+
+	local result = workspace:Raycast(origin, direction * range, params)
+	local hitDistance = if result then result.Distance else range
+
+	-- Create tracer beam
+	local tracer = Instance.new("Part")
+	tracer.Name = "LocalTracer"
+	tracer.Anchored = true
+	tracer.CanCollide = false
+	tracer.Material = Enum.Material.Neon
+	tracer.Color = Color3.fromRGB(200, 100, 255)
+	tracer.Size = Vector3.new(0.08, 0.08, math.min(hitDistance, range))
+	tracer.CFrame = CFrame.lookAt(origin + direction * (hitDistance / 2), origin + direction * hitDistance)
+	tracer.Transparency = 0.3
+	tracer.Parent = workspace
+
+	-- Fade out
+	task.delay(0.06, function()
+		if tracer.Parent then
+			tracer:Destroy()
+		end
+	end)
+
+	-- Hit spark at impact point
+	if result then
+		local spark = Instance.new("Part")
+		spark.Name = "HitSpark"
+		spark.Size = Vector3.new(0.4, 0.4, 0.4)
+		spark.Position = result.Position
+		spark.Anchored = true
+		spark.CanCollide = false
+		spark.Material = Enum.Material.Neon
+		spark.Color = Color3.fromRGB(255, 200, 100)
+		spark.Shape = Enum.PartType.Ball
+		spark.Parent = workspace
+
+		task.delay(0.08, function()
+			if spark.Parent then
+				spark:Destroy()
+			end
+		end)
+	end
 end
 
 function WeaponController:_createTracerEffect(origin: Vector3, direction: Vector3, distance: number)
